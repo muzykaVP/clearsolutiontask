@@ -22,7 +22,6 @@ public class UserRequestDTO {
     @NotBlank(message = "Last name is mandatory")
     private String lastName;
 
-    @Past(message = "Birth date must be earlier than current date")
     @RegistrationAgeConstraint
     private LocalDate birthDate;
 

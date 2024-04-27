@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RegistrationAgeConstraint {
-    String message() default "User must be at least 18 years old";
+    String message() default "Birth date error occurred";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

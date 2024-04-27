@@ -1,6 +1,7 @@
 package com.example.clearsolutiontask.service.impl;
 
 import com.example.clearsolutiontask.exception.DataProcessingException;
+import com.example.clearsolutiontask.exception.DateProcessingException;
 import com.example.clearsolutiontask.exception.DuplicateKeyException;
 import com.example.clearsolutiontask.model.User;
 import com.example.clearsolutiontask.repository.UserRepository;
@@ -30,7 +31,14 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
-            throw new DuplicateKeyException(String.format("User with email: \"%s\" already exist", user.getEmail()));
+            String fieldCause = null;
+            if (e.getMessage().contains(user.getEmail())) {
+                fieldCause = user.getEmail();
+            }
+            if (e.getMessage().contains(user.getPhoneNumber())) {
+                fieldCause = user.getPhoneNumber();
+            }
+            throw new DuplicateKeyException(String.format("User with \"%s\" field already exists", fieldCause));
         }
         return user;
     }
@@ -44,13 +52,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(Long id) {
+        findById(id);
         userRepository.deleteById(id);
     }
 
     @Override
     public List<User> findUsersByBirthDateBetween(LocalDate from, LocalDate to) {
         if (from.isAfter(to)) {
-            throw new DataProcessingException("Date \"from\" can't exceed the date \"to\"");
+            throw new DateProcessingException("Date \"from\" can't exceed the date \"to\"");
         }
         return userRepository.findUsersByBirthDateBetween(from, to);
     }

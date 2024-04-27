@@ -20,12 +20,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseException> catchDateProcessingException(DateProcessingException e) {
         return new ResponseEntity<>(new ResponseException(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler
-    public ResponseEntity<ResponseException> catchDateProcessingException(DuplicateKeyException e) {
+    public ResponseEntity<ResponseException> catchDuplicateKeyException(DuplicateKeyException e) {
         return new ResponseEntity<>(new ResponseException(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler
-    public ResponseEntity<ResponseException> catchDateProcessingException(MethodArgumentNotValidException e) {
-        return new ResponseEntity<>(new ResponseException(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ResponseException> catchMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return new ResponseEntity<>(new ResponseException(HttpStatus.BAD_REQUEST.value(), e.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
     }
  }

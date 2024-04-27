@@ -7,10 +7,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring",unmappedTargetPolicy = ReportingPolicy.WARN)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface UserMapper {
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+
     UserRequestDTO userToUserRequestDTO(User user);
+
     User userRequestDTOToUser(UserRequestDTO userDTO);
+
     UserResponseDTO userToUserResponseDTO(User user);
+
     User userResponseDTOToUser(UserResponseDTO userDTO);
 }
